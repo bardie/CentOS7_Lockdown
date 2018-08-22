@@ -171,7 +171,7 @@ cat > /etc/issue.net << 'EOF'
 /------------------------------------------------------------------------\
 |                       *** NOTICE TO USERS ***                          |
 |                                                                        |
-| This computer system is the private property of YOUR_COMPANY_NAME      |
+| This computer system is the private property.                          |
 | It is for authorized use only.                                         |
 |                                                                        |
 | Users (authorized or unauthorized) have no explicit or implicit        |
@@ -195,7 +195,7 @@ cat > /etc/issue.net << 'EOF'
 EOF
 cp -p /etc/motd /etc/motd_$TIME.bak
 cat > /etc/motd << 'EOF'
-YOUR_COMPANY_NAME AUTHORIZED USE ONLY
+AUTHORIZED USE ONLY
 EOF
 
 echo "Configuring SSH..."
@@ -526,6 +526,7 @@ net.ipv6.conf.all.accept_ra=0
 net.ipv6.conf.default.accept_ra=0
 net.ipv6.conf.all.accept_redirects=0
 net.ipv6.conf.default.accept_redirects=0
+vm.max_map_count=262144
 EOF
 
 echo "Disabling IPv6..."
@@ -535,11 +536,11 @@ echo "IPV6INIT=no" >> /etc/sysconfig/network
 echo "options ipv6 disable=1" >> /etc/modprobe.d/ipv6.conf
 echo "net.ipv6.conf.all.disable_ipv6=1" >> /etc/sysctl.d/ipv6.conf
 
-echo "Restricting Access to the su Command..."
-cp /etc/pam.d/su $AUDITDIR/su_$TIME.bak
-pam_su='/etc/pam.d/su'
-line_num="$(grep -n "^\#auth[[:space:]]*required[[:space:]]*pam_wheel.so[[:space:]]*use_uid" ${pam_su} | cut -d: -f1)"
-sed -i "${line_num} a auth		required	pam_wheel.so use_uid" ${pam_su}
+#echo "Restricting Access to the su Command..."
+#cp /etc/pam.d/su $AUDITDIR/su_$TIME.bak
+#pam_su='/etc/pam.d/su'
+#line_num="$(grep -n "^\#auth[[:space:]]*required[[:space:]]*pam_wheel.so[[:space:]]*use_uid" ${pam_su} | cut -d: -f1)"
+#sed -i "${line_num} a auth		required	pam_wheel.so use_uid" ${pam_su}
 
 echo ""
 echo "Successfully Completed"
